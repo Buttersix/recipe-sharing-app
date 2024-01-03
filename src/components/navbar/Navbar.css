@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background: white;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.0rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid;
+  border-color: rgb(230, 230, 230);
+}
+
+.navlogo {
+  height: 60px;
+  width: auto;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.container {
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 20px;
+  padding-left: 50px;
+}
+
+.navbar-logo {
+  color: #0994eb;
+  justify-self: start;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-icon {
+  margin-right: 0.5rem;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  text-align: center;
+  justify-content: flex-end;
+}
+
+.nav-item {
+  height: 60px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-item-btn {
+  margin-top: -2px;
+}
+
+.nav-links {
+  color: black;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  height: 100%;
+}
+
+.fa-bars {
+  color: black;
+}
+
+.menu-icon {
+  display: none;
+}
+
+.signin-btn {
+  height: 100%;
+  background-color: transparent;
+  color: black;
+  border: none;
+  font-size: 1.0rem;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.signin-btn:hover {
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.register-btn {
+  height: 100%;
+  background-color: transparent;
+  color: black;
+  border: none;
+  font-size: 1.0rem;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.register-btn:hover {
+  cursor: pointer;
+  background-color: transparent;
+}
+
+@media screen and (max-width: 960px) {
+  .NavbarItems {
+    position: relative;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: -100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+    padding-bottom: 10px;
+    border-bottom: 1px solid;
+    border-color: rgb(230, 230, 230);
+  }
+
+  .navlogo {
+    margin-top: -18px;
+  }
+
+  .nav-menu.active {
+    background: white;
+    left: 0;
+    opacity: 1;
+    transition: all 0.6s ease;
+    z-index: 1;
+  }
+
+  .nav-links {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+  }
+
+  .nav-item:hover {
+    border: none;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .navbar-logo {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    transform: translate(10%, 16%);
+  }
+
+  .menu-icon {
+    display: block;
+    position: absolute;
+    top: -6px;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  .register-btn {
+    margin-top: -10px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+}
