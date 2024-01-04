@@ -45,6 +45,9 @@ const LoginPopup = ({ isOpen, onClose, onToggle }) => {
         <p>
           Don't have an account? <button onClick={onToggle} className="no-account-btn">Sign up</button>
         </p>
+        <p>
+          For development: username = test, password = test
+        </p>
       </div>
     </div>
   ) : null;

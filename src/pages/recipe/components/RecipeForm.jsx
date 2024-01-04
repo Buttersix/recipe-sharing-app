@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import './RecipeForm.css'
+import axios from 'axios'
 
 const RecipeForm = () => {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, reset, formState } = useForm({
+    defaultValues: {
+      ingredients: [{ name: '' }],
+      instructions: [{ text: '' }]
+    }
+  })
   const { fields: ingredientFields, append: appendIngredient, remove: removeIngredient } = useFieldArray({
     control,
     name: 'ingredients',
@@ -12,63 +20,90 @@ const RecipeForm = () => {
     name: 'instructions',
   });
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    // Handle form submission logic (e.g., send data to server)
+  const { errors } = formState;
 
-    // Display success message
-    toast.success('Recipe uploaded successfully!');
+  const [serverErrors, setServerErrors] = useState({})
+
+  const onSubmit = async (data) => {
+    try {
+      const formData = {
+        recipeName: data.recipeName,
+        ingredients: data.ingredients,
+        instructions: data.instructions
+      }
+
+      const response = await axios.post('https://recipe-backend-api-o9ke.onrender.com/api/recipe/upload-recipe', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.status === 201) {
+        toast.success('Recipe uploaded successfully')
+        reset()
+        setServerErrors({})
+      } else {
+        toast.error('Failed to upload recipe')
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        // Server-side validation error
+        setServerErrors(error.response.data)
+      } else {
+        console.error('Error uploading recipe', error)
+        toast.error('Internal Server Error')
+      }
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>
+    <form className='recipe-form' onSubmit={handleSubmit(onSubmit)}>
+      <label className='recipe-form-label'>
         Recipe Name:
-        <input {...register('recipeName', { required: true })} />
+        <input className='recipe-form-input' {...register('recipeName', { required: true })} />
       </label>
 
-      <div>
-        <label>Ingredients:</label>
+      <div className='recipe-form-section'>
+        <label className='recipe-form-label'>Ingredients:</label>
         {ingredientFields.map((ingredient, index) => (
-          <div key={ingredient.id}>
+          <div className='recipe-form-array-item' key={ingredient.id}>
             <input
               {...register(`ingredients.${index}.name`, { required: true })}
+              className='recipe-form-input'
               placeholder="Ingredient"
             />
-            <button type="button" onClick={() => removeIngredient(index)}>
+            <button type="button" onClick={() => removeIngredient(index)} className='recipe-minus-button'>
               -
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => appendIngredient({ name: '' })}>
+        <button type="button" onClick={() => appendIngredient({ name: '' })} className='recipe-plus-button'>
           +
         </button>
       </div>
 
-      <div>
-        <label>Instructions:</label>
+      <div className='recipe-form-section'>
+        <label className='recipe-form-label'>Instructions:</label>
         {instructionFields.map((instruction, index) => (
-          <div key={instruction.id}>
+          <div className='recipe-form-array-item' key={instruction.id}>
             <textarea
               {...register(`instructions.${index}.text`, { required: true })}
+              className='recipe-form-input'
               placeholder="Instruction"
             />
-            <button type="button" onClick={() => removeInstruction(index)}>
+            <button type="button" onClick={() => removeInstruction(index)} className='recipe-minus-button'>
               -
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => appendInstruction({ text: '' })}>
+        <button type="button" onClick={() => appendInstruction({ text: '' })} className='recipe-plus-button'>
           +
         </button>
       </div>
 
-      <label>
-        Upload Image:
-        <input type="file" {...register('image', { required: true })} />
-      </label>
+      {serverErrors.message && <p>{serverErrors.message}</p>}
 
-      <button type="submit">Submit</button>
+      <button type="submit" className='recipe-form-button'>Submit</button>
     </form>
   );
 };
