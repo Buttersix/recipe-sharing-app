@@ -5,7 +5,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { IconContext } from "react-icons/lib";
 import { NavLink } from "react-router-dom";
 import LoginPopup from "../login/LoginPopup";
-import SignupPopup from '../signup/SIgnupPopup'
+import SignupPopup from '../signup/SignupPopup'
 import UserProfile from "../userProfile/UserProfile";
 import newRequest from '../../utils/newRequest';
 import { useNavigate } from 'react-router-dom';
